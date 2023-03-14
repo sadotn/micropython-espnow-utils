@@ -63,7 +63,7 @@ echo.server()       # Wait for incoming messages and echo back to sender
 ```
 
 ```python
-from esp import espnow
+import espnow
 import network
 import time
 import ubinascii
@@ -74,7 +74,7 @@ class ESPNowController():
 
     def __init__(self):
         self.wlan = network.WLAN(network.STA_IF)  # network.STA_IF Or network.AP_IF
-        self.wlan.active()        
+        self.wlan.active(True)        
         print ('wifi initialized')
         self.esp_now = espnow.ESPNow()
         self.esp_now.init()
