@@ -61,3 +61,37 @@ import echo
 
 echo.server()       # Wait for incoming messages and echo back to sender
 ```
+
+```python
+from esp import espnow
+import network
+import time
+import ubinascii
+
+import components.device_type.DeviceType as DeviceType
+
+class ESPNowController():
+
+    def __init__(self):
+        self.wlan = network.WLAN(network.STA_IF)  # network.STA_IF Or network.AP_IF
+        self.wlan.active()        
+        print ('wifi initialized')
+        self.esp_now = espnow.ESPNow()
+        self.esp_now.init()
+        print ('esp_now initialized')
+
+    def get_current_mac(self):
+        return ubinascii.hexlify(self.wlan.config('mac'),':').decode()
+        # return self.wlan.config('mac')
+
+    def add_peer(self, mac):
+        self.esp_now.add_peer(mac)
+
+    def send_data(self, data):
+        try:
+            self.esp_now.send("test")
+        except OSError as err:
+            print("Error: {0}".format(err))
+
+        time.sleep_ms(1000)    
+```
